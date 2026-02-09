@@ -58,6 +58,11 @@ public class ForgotPasswordSteps extends BaseStep {
         forgotPasswordPage.createNewPassword(password);
     }
 
+    @When("I create a new password {string} and confirm {string}")
+    public void createNewPasswordAndConfirm(String password, String confirmPassword) {
+        forgotPasswordPage.createNewPasswordWithConfirmation(password, confirmPassword);
+    }
+
     @Then("I login with the reset password")
     public void loginWithResetPassword() {
         String email = context.get("resetEmail", String.class);
@@ -66,5 +71,19 @@ public class ForgotPasswordSteps extends BaseStep {
         loginPage.login(email, password);
         context.set("loggedInUser", email);
         Assert.assertTrue(loginPage.isLoggedInByFormState(), "Expected user to be logged in with reset password.");
+    }
+
+    @Then("I should see reset password error message:")
+    public void shouldSeeResetPasswordErrorMessage(String expectedMessage) {
+        String actual = normalize(forgotPasswordPage.getResetPasswordErrorMessage());
+        String expected = normalize(expectedMessage);
+        Assert.assertEquals(actual, expected, "Reset password error message mismatch.");
+    }
+
+    private String normalize(String value) {
+        if (value == null) {
+            return "";
+        }
+        return value.replace("\r\n", "\n").trim();
     }
 }

@@ -12,6 +12,9 @@ public class ForgotPasswordPage extends BasePage {
     private static final String CREATE_PASSWORD_BUTTON = "input[type='submit'][value='Create Password'], button[type='submit']";
     private static final String SETUP_AUTH_HEADING = "h1.auth-heading";
     private static final String SKIP_FOR_NOW = "a.w-full.button.button--secondary[href='/auth/tokens']";
+    private static final String ALERT_CONTAINER = ".alert-component";
+    private static final String ALERT_HEADER = ".alert-component h3";
+    private static final String ALERT_TEXT = ".alert-component p";
     private static final String LOGIN_USERNAME_INPUT = "#user_authentication_service_identifier";
     private static final String LOGIN_PASSWORD_INPUT = "#user_authentication_service_password";
 
@@ -70,6 +73,27 @@ public class ForgotPasswordPage extends BasePage {
         click(CREATE_PASSWORD_BUTTON);
         skipAuthenticatorIfPrompted();
         waitForPostResetLanding();
+    }
+
+    public void createNewPasswordWithConfirmation(String password, String confirmPassword) {
+        waitVisible(PASSWORD_INPUT);
+        fill(PASSWORD_INPUT, password);
+        waitVisible(PASSWORD_CONFIRM_INPUT);
+        fill(PASSWORD_CONFIRM_INPUT, confirmPassword);
+        click(CREATE_PASSWORD_BUTTON);
+    }
+
+    public String getResetPasswordErrorMessage() {
+        waitVisible(ALERT_CONTAINER);
+        String header = getText(ALERT_HEADER);
+        String text = getText(ALERT_TEXT);
+        if (header == null) {
+            header = "";
+        }
+        if (text == null) {
+            text = "";
+        }
+        return header.trim() + "\n" + text.trim();
     }
 
     private void skipAuthenticatorIfPrompted() {
