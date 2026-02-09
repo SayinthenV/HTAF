@@ -6,6 +6,7 @@ import com.homey.htaf.core.BasePage;
 public class LoginPage extends BasePage {
     private static final String EMAIL_TAB = "a.auth-tabs--tab[href='/auth']";
     private static final String PHONE_TAB = "a.auth-tabs--tab[href='/auth?identifier_type=phone_number']";
+    private static final String FORGOT_PASSWORD_LINK = ".auth-sub-heading a[href='/users/password/new']";
     private static final String USERNAME_INPUT = "#user_authentication_service_identifier";
     private static final String PASSWORD_INPUT = "#user_authentication_service_password";
     private static final String SUBMIT_BUTTON = "input[type='submit'][value='Continue']";
@@ -35,6 +36,12 @@ public class LoginPage extends BasePage {
         skipAuthenticatorIfPrompted();
     }
 
+    public void openForgotPassword() {
+        waitVisible(FORGOT_PASSWORD_LINK);
+        click(FORGOT_PASSWORD_LINK);
+        page.waitForURL("**/users/password/new**");
+    }
+
     public boolean isLoggedIn(String identifier) {
         page.waitForLoadState();
         if (isLikelyPhone(identifier)) {
@@ -49,6 +56,14 @@ public class LoginPage extends BasePage {
         }
         String title = page.title();
         return title != null && title.contains("Referrals | Homey Backoffice");
+    }
+
+    public boolean isLoggedInByFormState() {
+        page.waitForLoadState();
+        if (page.isVisible(ERROR_CONTAINER)) {
+            return false;
+        }
+        return !page.isVisible(USERNAME_INPUT) && !page.isVisible(PASSWORD_INPUT);
     }
 
     public String getErrorMessage() {

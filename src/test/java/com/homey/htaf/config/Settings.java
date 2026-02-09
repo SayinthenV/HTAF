@@ -11,6 +11,8 @@ public class Settings {
     private final String baseUrl;
     private final String username;
     private final String password;
+    private final String mailtrapToken;
+    private final String mailtrapInboxId;
 
     public Settings() {
         String env = System.getProperty("env", DEFAULT_ENV).toLowerCase(Locale.ROOT);
@@ -32,6 +34,8 @@ public class Settings {
                 : properties.getProperty("baseUrl", "");
         this.username = properties.getProperty("username", "");
         this.password = properties.getProperty("password", "");
+        this.mailtrapToken = resolveSecret("mailtrapToken", "MAILTRAP_API_TOKEN", properties);
+        this.mailtrapInboxId = resolveSecret("mailtrapInboxId", "MAILTRAP_INBOX_ID", properties);
     }
 
     public String getBaseUrl() {
@@ -44,5 +48,25 @@ public class Settings {
 
     public String getPassword() {
         return password;
+    }
+
+    public String getMailtrapToken() {
+        return mailtrapToken;
+    }
+
+    public String getMailtrapInboxId() {
+        return mailtrapInboxId;
+    }
+
+    private String resolveSecret(String propertyKey, String envKey, Properties properties) {
+        String override = System.getProperty(propertyKey);
+        if (override != null && !override.isBlank()) {
+            return override;
+        }
+        String envValue = System.getenv(envKey);
+        if (envValue != null && !envValue.isBlank()) {
+            return envValue;
+        }
+        return properties.getProperty(propertyKey, "");
     }
 }
