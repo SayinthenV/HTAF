@@ -38,14 +38,3 @@ Feature: Authentication - Login
       Incorrect login details
       If you're a new user or forgot your password, click here to create a new one.
       """
-
-  @serial @sample
-  Scenario: Serial login with wrong password shows error
-    When I login with credentials:
-      | username | admin-16@homey.co.uk |
-      | password | wrongPassword |
-    Then I should see error message:
-      """
-      Incorrect login details
-      If you're a new user or forgot your password, click here to create a new one.
-      """

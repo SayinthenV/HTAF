@@ -8,7 +8,10 @@ public abstract class BasePage {
     protected final Page page;
 
     protected BasePage() {
-        this.page = new PlaywrightManager().getPage();
+        this.page = PlaywrightManager.getInstance().getPage();
+        if (this.page == null) {
+            throw new IllegalStateException("Playwright not initialized. Ensure Hooks runs before using page objects.");
+        }
     }
 
     protected void click(String selector) {

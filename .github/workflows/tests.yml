@@ -18,6 +18,9 @@ jobs:
           java-version: "21"
           cache: maven
 
+      - name: Install Playwright browsers
+        run: mvn -q -DskipTests org.codehaus.mojo:exec-maven-plugin:3.1.0:java -Dexec.mainClass=com.microsoft.playwright.CLI -Dexec.args="install chromium"
+
       - name: Run tests
         run: mvn test -Denv=qa -Dtags="@smoke"
 

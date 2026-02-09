@@ -2,7 +2,6 @@ package com.homey.htaf.steps;
 
 import com.homey.htaf.config.Settings;
 import com.homey.htaf.core.BaseStep;
-import com.homey.htaf.core.ScenarioContext;
 import com.homey.htaf.pages.LoginPage;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.Given;
@@ -17,7 +16,7 @@ public class LoginSteps extends BaseStep {
     private final LoginPage loginPage;
 
     public LoginSteps() {
-        super(new ScenarioContext());
+        super();
         this.settings = new Settings();
         this.loginPage = new LoginPage(settings);
     }

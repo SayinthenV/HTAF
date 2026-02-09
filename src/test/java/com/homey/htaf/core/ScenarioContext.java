@@ -4,8 +4,13 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class ScenarioContext {
+    private static final ScenarioContext INSTANCE = new ScenarioContext();
     private static final ThreadLocal<Map<String, Object>> CONTEXT =
             ThreadLocal.withInitial(ConcurrentHashMap::new);
+
+    public static ScenarioContext getInstance() {
+        return INSTANCE;
+    }
 
     public void set(String key, Object value) {
         CONTEXT.get().put(key, value);

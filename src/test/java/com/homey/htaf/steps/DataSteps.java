@@ -1,7 +1,6 @@
 package com.homey.htaf.steps;
 
 import com.homey.htaf.core.BaseStep;
-import com.homey.htaf.core.ScenarioContext;
 import com.homey.htaf.utils.CsvDataReader;
 import io.cucumber.java.en.Given;
 
@@ -12,7 +11,7 @@ public class DataSteps extends BaseStep {
     private final CsvDataReader csvDataReader;
 
     public DataSteps() {
-        super(new ScenarioContext());
+        super();
         this.csvDataReader = new CsvDataReader();
     }
 

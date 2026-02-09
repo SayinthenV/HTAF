@@ -6,12 +6,17 @@ import com.microsoft.playwright.Page;
 import com.microsoft.playwright.Playwright;
 
 public class PlaywrightManager {
+    private static final PlaywrightManager INSTANCE = new PlaywrightManager();
     private static final boolean DEFAULT_HEADLESS = false;
     private static final int DEFAULT_TIMEOUT_MS = 30000;
 
     private static final ThreadLocal<Playwright> PLAYWRIGHT = new ThreadLocal<>();
     private static final ThreadLocal<Browser> BROWSER = new ThreadLocal<>();
     private static final ThreadLocal<Page> PAGE = new ThreadLocal<>();
+
+    public static PlaywrightManager getInstance() {
+        return INSTANCE;
+    }
 
     public void init() {
         if (PAGE.get() != null) {
@@ -67,6 +72,7 @@ public class PlaywrightManager {
         try {
             return Integer.parseInt(value);
         } catch (NumberFormatException e) {
+            System.err.println("Invalid timeout value '" + value + "', using default " + defaultValue + "ms.");
             return defaultValue;
         }
     }

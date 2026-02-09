@@ -2,7 +2,6 @@ package com.homey.htaf.steps;
 
 import com.homey.htaf.config.Settings;
 import com.homey.htaf.core.BaseStep;
-import com.homey.htaf.core.ScenarioContext;
 import com.homey.htaf.pages.ForgotPasswordPage;
 import com.homey.htaf.pages.LoginPage;
 import com.homey.htaf.utils.MailtrapClient;
@@ -16,7 +15,7 @@ public class ForgotPasswordSteps extends BaseStep {
     private final Settings settings;
 
     public ForgotPasswordSteps() {
-        super(new ScenarioContext());
+        super();
         this.settings = new Settings();
         this.loginPage = new LoginPage(settings);
         this.forgotPasswordPage = new ForgotPasswordPage();
